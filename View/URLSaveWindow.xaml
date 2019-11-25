@@ -1,0 +1,111 @@
+﻿<Window x:Class="URLSaving.View.URLSaveWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:URLSaving.View"
+        xmlns:vm="clr-namespace:URLSaving.ViewModel"
+        mc:Ignorable="d"
+        Title="URL저장해줌" Height="600" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="6*"></RowDefinition>
+            <RowDefinition Height="2*">
+            </RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="6*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ComboBox Grid.Row="0" ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="Name" SelectedValue="{Binding SelectCategory}"/>
+                    <Button Grid.Row="1" Content="삭제" Margin="1" Command="{Binding DeleteCategory}"></Button>
+                    <Button Grid.Row="2" Content="분리" Margin="1" Command="{Binding SearchCategory}"></Button>
+                </Grid>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="카테고리 추가" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                <TextBox Grid.Row="1" Margin="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <Button Grid.Row="2" Margin="1" Content="카테고리 저장" Command="{Binding CategoryAddCommand}"></Button>
+            </Grid>
+            <Grid Grid.Column="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <!--<Grid Grid.Row="0">
+                    <Button Margin="3" Content="전체선택"></Button>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Button Margin="3" Content="전체해제"></Button>
+                </Grid>-->
+            </Grid>
+            <Grid Grid.Column="4">
+                <Button Margin="3" Content="url삭제" Command="{Binding DeleteUrl}"></Button>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <DataGrid ItemsSource="{Binding URLs}" AutoGenerateColumns="False" CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="즐겨찾기" Width="1*" MaxWidth="60" MinWidth="60" Binding="{Binding BookMark}"></DataGridCheckBoxColumn>
+                    <DataGridCheckBoxColumn Header="Vpn" Width="1*" MaxWidth="40" MinWidth="40" Binding="{Binding Vpn}"></DataGridCheckBoxColumn>
+                    <DataGridTextColumn Header="이름" Width="5*" MinWidth="100" Binding="{Binding Title}"></DataGridTextColumn>
+                    <DataGridTemplateColumn Header="URL" Width="4*" MinWidth="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Url}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="카테고리" Width="2*" MinWidth="60" Binding="{Binding CategoryName}" IsReadOnly="True"></DataGridTextColumn>
+                    <DataGridTemplateColumn Width="1*" MaxWidth="45" MinWidth="45">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="이동" Command="{Binding PageLoadCommand}"></Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridCheckBoxColumn Header="선택" Width="1*" MaxWidth="45" MinWidth="45" Binding="{Binding SelectThis}"></DataGridCheckBoxColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+                <ColumnDefinition Width="5*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="4*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <CheckBox Grid.Column="0" Grid.Row="0" Content="VPN필요" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Vpn}"></CheckBox>
+            <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
+                <TextBlock Text="카테고리" HorizontalAlignment="Center"></TextBlock>
+                <ComboBox VerticalAlignment="Center" ItemsSource="{Binding CategoryNames}" SelectedItem="{Binding Category}"></ComboBox>
+            </StackPanel>
+            <TextBlock Grid.Column="1" Grid.Row="0" Text="이름" HorizontalAlignment="Center"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Margin="5" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBlock Grid.Column="2" Grid.Row="0" Text="URL" HorizontalAlignment="Center"></TextBlock>
+            <TextBox Grid.Column="2" Grid.Row="1" Margin="5" Text="{Binding Url, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Button Grid.Column="3" Grid.Row="1" Content="저장" Margin="10" Command="{Binding UrlAddCommand}"/>
+        </Grid>
+    </Grid>
+</Window>
