@@ -19,8 +19,7 @@ namespace URLSaving.ViewModel
 
         public DirectoryInfo categoryDirectoryInfo;
         private const string CATEGORY_FILE_NAME = "_category.txt";
-        //private const string CATEGORY_FILE_PATH = @"..\..\Data\Category\";
-        private const string CATEGORY_FILE_PATH = @"Data\Category\";
+        private readonly string CATEGORY_FILE_PATH;
 
         private string selectCategory;
         public string SelectCategory
@@ -31,6 +30,7 @@ namespace URLSaving.ViewModel
             }
             set
             {
+                
                 selectCategory = value;
             }
         }

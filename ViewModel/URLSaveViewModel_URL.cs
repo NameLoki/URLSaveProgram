@@ -12,13 +12,12 @@ using URLSaving.ViewModel.Interface;
 
 namespace URLSaving.ViewModel
 {
-    public partial class URLSaveViewModel : IURLManager
+    public partial class URLSaveViewModel
     {
         public ObservableCollection<URLData> URLs { get; private set; }
 
         public DirectoryInfo urlDirectoryInfo;
         private const string URL_FILE_NAME = "_urldata.txt";
-        //private const string URL_FILE_PATH = @"..\..\Data\URL\";
         private const string URL_FILE_PATH = @"Data\URL\";
 
         private string title;
@@ -87,7 +86,7 @@ namespace URLSaving.ViewModel
                 OnPropertyChanged(nameof(this.BookMark));
             }
         }
-        private void UrlSave(URLData url)
+        public static void UrlSave(URLData url)
         {
             using StreamWriter streamWriter = new StreamWriter(URL_FILE_PATH + url.Title + URL_FILE_NAME, false);
             streamWriter.Write(url.BookMark + OVERHEAD);
@@ -97,7 +96,7 @@ namespace URLSaving.ViewModel
             streamWriter.Write(url.CategoryName);
         }
 
-        public void UrlAdd()
+        private void UrlAdd()
         {
             URLData urlData = new URLData
             {

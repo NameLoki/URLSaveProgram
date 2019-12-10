@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:URLSaving.View"
         xmlns:vm="clr-namespace:URLSaving.ViewModel"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance vm:URLSaveViewModel}"
         Title="URL저장해줌" Height="600" Width="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -63,9 +64,17 @@
         <Grid Grid.Row="1">
             <DataGrid ItemsSource="{Binding URLs}" AutoGenerateColumns="False" CanUserAddRows="False">
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn Header="즐겨찾기" Width="1*" MaxWidth="60" MinWidth="60" Binding="{Binding BookMark}"></DataGridCheckBoxColumn>
-                    <DataGridCheckBoxColumn Header="Vpn" Width="1*" MaxWidth="40" MinWidth="40" Binding="{Binding Vpn}"></DataGridCheckBoxColumn>
-                    <DataGridTextColumn Header="이름" Width="5*" MinWidth="100" Binding="{Binding Title}"></DataGridTextColumn>
+                    <DataGridTemplateColumn  Header="즐겨찾기" Width="1*" MaxWidth="60" MinWidth="60">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <CheckBox IsChecked="{Binding BookMark, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding BookMarkCommand}"></CheckBox>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridCheckBoxColumn Header="Vpn" Width="1*" MaxWidth="40" MinWidth="40" Binding="{Binding Vpn}" IsReadOnly="True"></DataGridCheckBoxColumn>
+                    <DataGridTextColumn Header="이름" Width="5*" MinWidth="100" Binding="{Binding Title}" CanUserSort="True" IsReadOnly="True"></DataGridTextColumn>
                     <DataGridTemplateColumn Header="URL" Width="4*" MinWidth="80">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

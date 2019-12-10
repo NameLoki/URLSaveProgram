@@ -25,10 +25,14 @@ namespace URLSaving.ViewModel
         public ObservableCollection<string> CategoryNames { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         public URLSaveViewModel()
         {
+            CATEGORY_FILE_PATH = @"Data\Category\";
+
             Start();
         }
+
         private void Start()
         {
             Setting();
