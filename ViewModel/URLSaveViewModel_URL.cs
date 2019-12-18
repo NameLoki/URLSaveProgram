@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using URLSaving.Model;
 using URLSaving.ViewModel.Interface;
 
@@ -20,11 +21,26 @@ namespace URLSaving.ViewModel
         private const string URL_FILE_NAME = "_urldata.txt";
         private const string URL_FILE_PATH = @"Data\URL\";
 
+        private string selectTitle;
         private string title;
         private string category;
         private string url;
         private bool? vpn;
         private bool? bookMark;
+
+        public string SelectTitle
+        {
+            get
+            {
+                return selectTitle;
+            }
+            set
+            {
+                selectTitle = value;
+                OnPropertyChanged(nameof(this.SelectTitle));
+                URLTitleSearch();
+            }
+        }
 
         public string Title
         {
@@ -189,6 +205,29 @@ namespace URLSaving.ViewModel
             //    return false;
             //}
             return true;
+        }
+
+        private void URLTitleSearch()
+        {
+            CollectionView cv = (CollectionView)CollectionViewSource.GetDefaultView(URLs);
+
+            cv.Filter = new Predicate<object>(URLTitleCheck);
+        }
+
+        private bool URLTitleCheck(object item)
+        {
+            URLData category = item as URLData;
+
+            if(String.IsNullOrWhiteSpace(SelectTitle))
+            {
+                return true;
+            }
+
+            if(0 <= category.Title.IndexOf(SelectTitle))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

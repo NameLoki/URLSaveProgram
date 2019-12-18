@@ -30,8 +30,8 @@ namespace URLSaving.ViewModel
             }
             set
             {
-                
                 selectCategory = value;
+                CategoryFilterCommand();
             }
         }
 
@@ -95,10 +95,7 @@ namespace URLSaving.ViewModel
         {
             URLData category = item as URLData;
 
-            bool check;
-
-            check = SelectCategory.Equals(CATEGORY_ALL);
-            if (check)
+            if (SelectCategory.Equals(CATEGORY_ALL))
             {
                 return true;
             }
